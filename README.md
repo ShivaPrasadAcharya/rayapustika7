@@ -1,78 +1,51 @@
-# rayapustikatemplate
+# rayapustika7
 
-A GitHub **template repository** for creating searchable file catalogues named
-`rayapustika1`, `rayapustika2`, `rayapustika3` … `rayapustikaN`.
+A public file catalogue with five columns: **SN, Folder name, File name, Link, Remarks**.
 
-Each catalogue is a static site (GitHub Pages) listing PDFs, images, documents,
-spreadsheets and presentations with search, remarks, preview and download.
+Site: `https://<your-username>.github.io/rayapustika7/`
 
-## Create a new catalogue (rayapustikaN)
+| Folder              | Files                                     |
+| ------------------- | ----------------------------------------- |
+| `Files/pdf`         | PDF                                       |
+| `Files/images`      | JPG, PNG, WEBP, GIF, SVG and other images |
+| `Files/docs`        | DOC, DOCX, ODT, RTF, TXT, MD, HTML        |
+| `Files/spreadsheet` | XLS, XLSX, XLSM, ODS, CSV, TSV            |
+| `Files/powerpoints` | PPT, PPTX, PPTM, ODP, PPS, PPSX           |
 
-1. Open this repository on GitHub and click **Use this template → Create a new repository**.
-2. Set **Owner** to your account, **Repository name** to `rayapustikaN`
-   (e.g. `rayapustika3`), choose **Public**, then **Create repository**.
-3. Do the checklist below in the **new** repository.
+## Add files
 
-## Manual changes required in every new repository
+Open the relevant folder, choose **Add file → Upload files**, then **Commit changes**.
+Names may be Nepali, contain spaces, or sit in subfolders. Each commit to `main` rebuilds
+the catalogue and republishes via GitHub Pages (watch the **Actions** tab, then refresh).
 
-### A. Must do (otherwise the site will not publish)
+## Remarks and custom link text
 
-1. **Enable GitHub Pages with Actions.**
-   New repo → **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. **Run the first publish.**
-   Repo → **Actions** tab → *Publish rayapustikaN* → **Run workflow**
-   (or just commit any change to `main`). If Actions are disabled on the new
-   repo, click **Enable** on the Actions tab first.
-3. **Check Pages permissions.** Settings → Actions → General → Workflow
-   permissions: leave defaults; the workflow already declares `pages: write`.
+Edit the file's entry in `files-index.js`; these values survive regeneration:
 
-Your site will appear at `https://<your-username>.github.io/rayapustikaN/`.
-
-### B. Should do (names and branding)
-
-Replace the placeholder text `rayapustikaN` with the real repo name (e.g. `rayapustika3`) in:
-
-| File | What to change |
-| ---- | -------------- |
-| `index.html` | `<meta name="description">` (line ~7), `<title>` (line ~8), and the two `<h1>rayapustikaN</h1>` headings (access screen and main header) |
-| `.github/workflows/pages.yml` | `name: Publish rayapustikaN` on line 1 |
-| `assets/app.js` | first-line comment (cosmetic only) |
-| `README.md` | Replace this whole file with `NEW_REPO_README.md` (rename it to `README.md`, replace `rayapustikaN`), then delete `NEW_REPO_README.md` |
-
-Tip: on GitHub use the web editor, or locally run
-`grep -rl rayapustikaN . --exclude-dir=.git | xargs sed -i 's/rayapustikaN/rayapustika3/g'`.
-
-Also set the repo's **About** box (top right of the repo page): description and
-website URL `https://<your-username>.github.io/rayapustikaN/`.
-
-### C. Security: change the access screen
-
-`assets/access.js`, line 4:
-
-```js
-const MOBILE = '9849667879', CODE = '1234';
+```json
+{
+  "path": "Files/pdf/My file.pdf",
+  "remarks": "Evidence law notes",
+  "openText": "Open PDF",
+  "downloadText": "Download PDF"
+}
 ```
 
-Change the mobile number and four-digit code for each new catalogue.
-This is only a browser-side screen, **not real security**: the repo, the files
-and the code itself are public. Do not upload confidential files.
+## Search
 
-### D. Your content
+Search names and remarks, or use **Advanced search** (all/any words, exact phrases, fields,
+file types, exclusions, files with remarks). Case-insensitive, supports Nepali Unicode.
+Only metadata is searched, not document contents.
 
-- Upload files into `Files/pdf`, `Files/images`, `Files/docs`, `Files/spreadsheet`, `Files/powerpoints`.
-- `files-index.js` starts empty and is regenerated automatically on every push to `main`.
-  Edit `remarks`, `openText`, `downloadText` for a file there; they are preserved.
-- If the template ever gets sample files or a filled `files-index.js`, delete them in the new repo.
+## Access screen
 
-### E. Already automatic (nothing to change)
+Mobile number and code are set in `assets/access.js` (line 4). This is a browser-side screen
+only: files and repository remain public. Sessions last six hours per browser.
 
-- The **Add files** button links to the correct repository (derived from the site URL).
-- The browser access-session key is unique per repo, so several catalogues do not interfere.
-- The favicon (`assets/favicon.svg`) shows the repo number automatically: `rayapustika7` gives a **7**, and it shows **N** in the template itself.
-- Catalogue index generation and publishing (`scripts/build-index.py`, workflow).
+## Local use
 
-## Updating the template itself
+`python scripts/build-index.py`, then `python -m http.server 8000`.
 
-Keep this repo free of real files. After improving the template, existing
-`rayapustikaN` repos do **not** update automatically; copy changes manually.
-Make sure **Settings → General → Template repository** stays ticked.
+## Hosting
+
+GitHub Pages with **GitHub Actions** as the source (Settings → Pages). All uploaded files are public.
